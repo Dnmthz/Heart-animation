@@ -23,7 +23,7 @@ var init = function () {
     if (loaded) return;
     loaded = true;
     var mobile = window.isDevice;
-    var koef = mobile ? 0.5 : 1;
+    var koef = mobile ? 0.5 : Math.min(1, window.innerWidth / 1200);
     var canvas = document.getElementById('heart');
     var ctx = canvas.getContext('2d');
     var width = canvas.width = koef * innerWidth;
@@ -156,15 +156,9 @@ var init = function () {
     });
 
     function resizeCanvas() {
-        var aspectRatio = 1; // You can adjust this to change the aspect ratio
         var newWidth = koef * innerWidth;
         var newHeight = koef * innerHeight;
 
-        if (newWidth / newHeight > aspectRatio) {
-            newWidth = newHeight * aspectRatio;
-        } else {
-            newHeight = newWidth / aspectRatio;
-        }
 
         canvas.width = newWidth;
         canvas.height = newHeight;
