@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    block-size: 100vh;
+    flex-direction: column;
+}
+
+canvas {
+    display: block;
+}
+
+.controls {
+    margin-block-start: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.controls label {
+    color: #fff;
+}
