@@ -26,12 +26,11 @@ var init = function () {
     var koef = mobile ? 0.5 : Math.min(1, window.innerWidth / 1200);
     var canvas = document.getElementById('heart');
     var ctx = canvas.getContext('2d');
-    var width = canvas.width = koef * innerWidth;
-    var height = canvas.height = koef * innerHeight;
+    let width = canvas.width = koef * innerWidth;
+    let height = canvas.height = koef * innerHeight;
     var rand = Math.random;
     let backgroundColor = "#000000";
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, width, height);
+
 
     var heartPosition = function (rad) {
         return [Math.pow(Math.sin(rad), 3), -(15 * Math.cos(rad) - 5 * Math.cos(2 * rad) - 2 * Math.cos(3 * rad) - Math.cos(4 * rad))];
@@ -120,8 +119,6 @@ var init = function () {
     const speedControl = document.getElementById('speed');
     const colorControl = document.getElementById('color');
     const toggleButton = document.getElementById('toggle');
-    const shapeControl = document.getElementById('shape');
-    const backgroundColorControl = document.getElementById('backgroundColor');
     const trailLengthControl = document.getElementById('trailLength');
 
     speedControl.addEventListener('input', () => {
@@ -133,17 +130,6 @@ var init = function () {
         toggleButton.textContent = isPaused ? 'Start' : 'Pause';
     });
 
-    shapeControl.addEventListener('change', () => {
-        shape = shapeControl.value;
-        calculateShapePoints();
-        heartPointsCount = shapePoints.length;
-        pulse((1 + Math.cos(time)) * .5, (1 + Math.cos(time)) * .5);
-    });
-
-    backgroundColorControl.addEventListener('input', () => {
-        backgroundColor = backgroundColorControl.value;
-        resizeCanvas();
-    });
 
     trailLengthControl.addEventListener('input', () => {
         traceCount = parseInt(trailLengthControl.value);
@@ -158,6 +144,9 @@ var init = function () {
     function resizeCanvas() {
         var newWidth = koef * innerWidth;
         var newHeight = koef * innerHeight;
+        const controls = document.querySelector('.controls');
+        const controlsHeight = controls ? controls.offsetHeight : 0;
+        newHeight -= controlsHeight;
 
 
         canvas.width = newWidth;
@@ -213,6 +202,12 @@ var init = function () {
         time += config.timeDelta * animationSpeed;
         ctx.fillStyle = "rgba(0,0,0,.1)";
         ctx.fillRect(0, 0, width, height);
+        
+        // Clear the fractal heart before redrawing it
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, width, height);
+
         colorToggle = !colorToggle;
         for (i = e.length; i--;) {
             var u = e[i];
@@ -271,7 +266,7 @@ var init = function () {
         const newB = Math.min(255, Math.max(0, b + amount));
         return `hsla(${rgbToHsl(newR, newG, newB)[0]},100%,50%,.3)`;
     }
-
+    
     function rgbToHsl(r, g, b) {
         r /= 255, g /= 255, b /= 255;
         let max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -290,10 +285,10 @@ var init = function () {
         }
         return [h * 360, s * 100, l * 100];
     }
-
+    
     loop();
-};
-
-var s = document.readyState;
-if (s === 'complete' || s === 'loaded' || s === 'interactive') init();
-else document.addEventListener('DOMContentLoaded', init, false);
+    };
+    
+    var s = document.readyState;
+    if (s === 'complete' || s === 'loaded' || s === 'interactive') init();
+    else document.addEventListener('DOMContentLoaded', init, false);
