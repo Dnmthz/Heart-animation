@@ -1,40 +1,53 @@
 body {
     margin: 0;
     overflow: hidden;
-    background-color: #000;
+    background-color: black;
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
     block-size: 100vh;
-    flex-direction: column;
 }
 
 canvas {
+    background-color: black;
     display: block;
+    z-index: 11;
 }
 
 .controls {
     position: absolute;
-    top: 0;
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px;
+    inset-block-start: auto;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px;
+    border-radius: 10px;
+    z-index: 10;
+    color: white;
+    font-family: Arial, sans-serif;
+    inline-size: 100%;
     box-sizing: border-box;
+    font-size: 14px;
 }
 
 .controls label {
-    color: #fff;
-    font-size: 0.9em;
+    display: block;
+    margin-block-end: 5px;
 }
 
-@media (max-width: 600px) {
-    .controls {
-        flex-direction: column;
-        gap: 5px;
-    }
-    .controls label {
-        font-size: 0.8em;
-    }
+.controls input[type="range"],
+.controls input[type="color"],
+.controls select,
+.controls button {
+    margin-block-start: 2px;
+}
+
+.controls button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
